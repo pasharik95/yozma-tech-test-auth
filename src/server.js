@@ -1,32 +1,32 @@
-const express = require('express')
+const express = require('express');
 const {
   NOT_FOUND,
-  INTERNAL_SERVER_ERROR
-} = require('http-status-codes')
-const usersRouter = require('./routers/users')
+  INTERNAL_SERVER_ERROR,
+} = require('http-status-codes');
+const usersRouter = require('./routers/users');
 
-const app = express()
+const app = express();
 
 // Configure logger
-require('./logger')(app)
+require('./logger')(app);
 
-const port = process.env.port || 3000
+const port = process.env.port || 3000;
 
 /* Configure server */
-app.use(express.json())
+app.use(express.json());
 
-app.use(usersRouter)
+app.use(usersRouter);
 
 // Not found middleware
 app.use((req, res) => {
-  res.status(NOT_FOUND).json({ message: 'Not found' })
-})
+  res.status(NOT_FOUND).json({ message: 'Not found' });
+});
 
 // Error middleware
-app.use((err, req, res, next) => {
-  res.status(err.status ? err.status : INTERNAL_SERVER_ERROR ).json({ message: err.message })
-})
+app.use((err, req, res) => {
+  res.status(err.status ? err.status : INTERNAL_SERVER_ERROR).json({ message: err.message });
+});
 
 app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`)
-})
+  console.log(`Server is running on port: ${port}`); // eslint-disable-line no-console
+});

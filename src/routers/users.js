@@ -1,9 +1,9 @@
-const { Router } = require('express')
+const { Router } = require('express');
 
-const router = new Router()
+const router = new Router();
 
 router.post('/users/auth', (req, res) => {
-  res.json({ name: 'Pavlo', surname: 'Servatovych' })
-})
+  res.json({ name: 'Pavlo1', surname: 'Servatovych1' });
+});
 
-module.exports = router
+module.exports = router;
