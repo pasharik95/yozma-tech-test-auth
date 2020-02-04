@@ -12,6 +12,11 @@ require('./logger')(app);
 
 const port = process.env.port || 3000;
 
+// Router for health checker
+app.get('/health', (req, res) => {
+  res.send('OK');
+});
+
 /* Configure server */
 app.use(express.json());
 
