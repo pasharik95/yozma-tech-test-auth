@@ -1,10 +1,6 @@
 const md5 = require('md5');
-const { promisify } = require('util');
 
-const db = require('../db');
-
-// Convert form callback to promise way
-const query = promisify(db.query);
+const { User } = require('../models');
 
 /**
  * Class 'UsersController'
@@ -17,11 +13,8 @@ class UsersController {
    * @param { string } password
    * @returns { Promise }
    */
-  static login(email, password) {
-    return query('SELECT * FROM users WHERE email = ? && password = ?', [
-      email,
-      md5(password),
-    ]);
+  static async login(email, password) {
+    return User.findOne({ where: { email, password: md5(password) } });
   }
 }
 
