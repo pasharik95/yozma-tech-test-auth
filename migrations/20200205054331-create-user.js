@@ -11,6 +11,7 @@ module.exports = {
         },
         email: {
           type: Sequelize.STRING,
+          unique: true,
         },
         password: {
           type: Sequelize.STRING,
@@ -26,20 +27,8 @@ module.exports = {
       }, { transaction });
       await queryInterface.addIndex(
         'Users',
-        'email',
-        {
-          fields: 'email',
-          unique: true,
-          transaction,
-        },
-      );
-      await queryInterface.addIndex(
-        'Users',
-        'email_password',
-        {
-          fields: ['email', 'password'],
-          transaction,
-        },
+        ['email', 'password'],
+        { transaction },
       );
       await transaction.commit();
     } catch (err) {
@@ -73,7 +62,6 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction();
     try {
       await queryInterface.removeIndex('Users', 'email_password', { transaction });
-      await queryInterface.removeIndex('Users', 'email', { transaction });
       await queryInterface.dropTable('Users', { transaction });
       await transaction.commit();
     } catch (err) {
