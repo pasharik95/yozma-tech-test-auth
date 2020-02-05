@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 if (!process.env.DB_URL) {
   throw new Error(`Invalid value "${process.env.DB_URL}" for env variable DB_URL`);

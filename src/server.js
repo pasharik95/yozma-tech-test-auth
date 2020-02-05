@@ -3,14 +3,16 @@ const {
   NOT_FOUND,
   INTERNAL_SERVER_ERROR,
 } = require('http-status-codes');
-const usersRouter = require('./routers/users');
+
+const { logger, addLoggerMiddlewares } = require('./logger');
+// const usersRouter = require('./routers/users');
+
+const port = process.env.port || 3000;
 
 const app = express();
 
 // Configure logger
-require('./logger')(app);
-
-const port = process.env.port || 3000;
+addLoggerMiddlewares(app);
 
 // Router for health checker
 app.get('/health', (req, res) => {
@@ -20,7 +22,7 @@ app.get('/health', (req, res) => {
 /* Configure server */
 app.use(express.json());
 
-app.use(usersRouter);
+// app.use(usersRouter);
 
 // Not found middleware
 app.use((req, res) => {
@@ -33,5 +35,5 @@ app.use((err, req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`); // eslint-disable-line no-console
+  logger.info(`Server is running on port: ${port}`);
 });
